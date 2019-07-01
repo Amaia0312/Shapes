@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Firebase</title>
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/4.12.0/firebase.js"></script>
+
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+      https://firebase.google.com/docs/web/setup#config-web-app -->
+</head>
+
+<body>
+    <h1>Firebase</h1>
+    <button id='click-here'>Click Me</button>
+    <div>
+        <p>I've been clicked
+            <span id='clicks'></span> times.</p>
+    </div>
+
+    <script>
+        var clicks;
+
+        // Your web app's Firebase configuration
+        var config = {
+            apiKey: "AIzaSyCUPGMh00KerpSBqTalNK-ExUe5jzIOxp8",
+            authDomain: "shapes-d50c8.firebaseapp.com",
+            databaseURL: "https://shapes-d50c8.firebaseio.com",
+            projectId: "shapes-d50c8",
+            storageBucket: "",
+            messagingSenderId: "690448507809",
+            appId: "1:690448507809:web:a91feaf800930bcc"
+        };
+
+        firebase.initializeApp(config);
+
+        // Create a variable to reference the database
+        var database = firebase.database();
+
+        var clickCountRef = database.ref('/clicks');
+        clickCountRef.on('value', function (snapshot) {
+            clicks = snapshot.val() || 0;
+            $("#clicks").text(clicks);
+        });
+
+        $("#click-here").on("click", (data) => {
+            clicks++;
+            database.ref().set({
+                clicks: clicks
+            });
+        });
+    </script>
+</body>
+
+</html>
